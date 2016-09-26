@@ -1,4 +1,4 @@
-# tiff-viewer-addon
+# pdf-viewer-addon
 	-Addon works on client side.
 	-Display file only with .pdf (pdf) format
     -Supports multipage
