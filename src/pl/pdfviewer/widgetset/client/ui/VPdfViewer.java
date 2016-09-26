@@ -135,7 +135,6 @@ public class VPdfViewer extends HTML {
 		var decreaseBtn=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::decreaseBtn;
 		
 		window.showPdfPage=function(pageNumber){
-			console.log('show page: '+pageNumber);
 			if(window.pdfFile2==null){
 				window.counter2.innerHTML=0;
 				window.input2.value=0;
@@ -207,7 +206,6 @@ public class VPdfViewer extends HTML {
 				value=1;
 				var autoWidth = window.page2.getViewport(1).width;
 				var boxWidth = window.root2.offsetWidth-20;
-				console.log(autoWidth+' '+boxWidth);
 				value=boxWidth/autoWidth;
 			}
 			var viewport = window.page2.getViewport(value);
