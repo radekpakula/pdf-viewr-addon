@@ -1,4 +1,4 @@
-package pl.tiffviewer;
+package pl.pdfviewer;
 
 import java.io.File;
 

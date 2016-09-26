@@ -206,7 +206,7 @@ public class VPdfViewer extends HTML {
 			if(window.selectSize2.value=='0'){
 				value=1;
 				var autoWidth = window.page2.getViewport(1).width;
-				var boxWidth = window.root2.offsetWidth-10;
+				var boxWidth = window.root2.offsetWidth-20;
 				console.log(autoWidth+' '+boxWidth);
 				value=boxWidth/autoWidth;
 			}
@@ -226,7 +226,7 @@ public class VPdfViewer extends HTML {
 		if(window.fileName2==null || window.fileName2!=fileName){
 			window.pageNumbe2r=1;
 			$wnd.PDFJS.disableStream = true;
-			$wnd.PDFJS.workerSrc ='/PdfViewer/APP/PUBLISHED/pdf.worker.js';
+			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
 			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
 			  	window.pdfFile2 = pdf;
 			  	window.fileName2=fileName;

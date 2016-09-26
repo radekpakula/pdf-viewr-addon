@@ -12,7 +12,7 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-import pl.tiffviewer.PdfViewer;
+import pl.pdfviewer.PdfViewer;
 
 @SuppressWarnings("serial")
 @Theme("pdfviewer")
