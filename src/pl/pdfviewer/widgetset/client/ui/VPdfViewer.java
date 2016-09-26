@@ -78,9 +78,9 @@ public class VPdfViewer extends HTML {
 		
 		selectSize = Document.get().createSelectElement();
 		String[][] vals = new String[][]{
-			{"0"," Auto "},{"0.25"," 25%"},{"0.5"," 50%"},{"0.75"," 75%"},
-			{"1"," 100%"},{"1.25"," 125%"},{"1.5"," 150%"},{"1.75"," 175%"},
-			{"2"," 200%"},{"2.25"," 225%"},{"2.5"," 250%"},{"3"," 300%"},
+			{"0"," Auto "},{"0.5"," 5%"},{"0.5"," 50%"},{"0.75"," 75%"},
+			{"1"," 100%"},{"1.5"," 15%"},{"1.5"," 150%"},{"1.75"," 175%"},
+			{""," 00%"},{".5"," 5%"},{".5"," 50%"},{"3"," 300%"},
 			{"4"," 400%"},{"5"," 500%"},{"10"," 1000%"}};
 		for (String[] e : vals) {
 			OptionElement el =Document.get().createOptionElement();
@@ -121,117 +121,39 @@ public class VPdfViewer extends HTML {
 		initTiff(this);
 	}
 	public native void initTiff(VPdfViewer instance)/*-{
-		window.canvas2 = instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::canvas;
-		window.canvas2Div=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::canvasDiv;
-		window.root2=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::root;
-		window.counter2=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::counter;
-		window.input2=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::inputCounter;
-		window.selectSize2=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::selectSize;
-		window.bar2=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::buttonBar;
-		
-		var nextBtn =instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::nextBtn;
-		var prevBtn =instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::previousBtn;
-		var increaseBtn=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::increaseBtn;
-		var decreaseBtn=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::decreaseBtn;
-		
-		window.showPdfPage=function(pageNumber){
-			console.log('show page: '+pageNumber);
-			if(window.pdfFile2==null){
-				window.counter2.innerHTML=0;
-				window.input2.value=0;
-				return;
-			}
-			if(pageNumber<=window.pageCount2 && pageNumber>0){
-			    window.pdfFile2.getPage(pageNumber).then(function(page) {
-			    	window.page2=page;
-			    	var viewport = page.getViewport(1);
-			    	window.canvas2.height = viewport.height;
-			    	window.canvas2.width = viewport.width;
-			    	window.updateSize2();
-			    	window.currentPage2=pageNumber;
-			    	window.counter2.innerHTML=window.pdfFile2.numPages;
-			    	window.input2.value=pageNumber;
-			    	$wnd.dragscroll.reset();
-				});
-			}
-		}
-		nextBtn.onclick=function(){window.showPdfPage(window.currentPage2+1)};
-		prevBtn.onclick=function(){window.showPdfPage(window.currentPage2-1)};
-		increaseBtn.onclick=function(){
-			var list=window.selectSize2;
-			list.value= list.value==0 ? 1 : list.value;
-			if(list.selectedIndex<15){
-				list.value=list.options[list.selectedIndex+1].value;
-				window.updateSize2();
-			}
-		};
-		decreaseBtn.onclick=function(){
-			var list=window.selectSize2;
-			list.value= list.value==0 ? 1 : list.value;
-			if(list.selectedIndex>1){
-				list.value=list.options[list.selectedIndex-1].value;
-				window.updateSize2();
-			}
-		};
-		
-		window.checkInput2=function(){
-		    var value = parseInt(window.input2.value);
-  			if(isNaN(value)){
-  				window.input2.value=1;
-  			}else if(value<1){
-    			window.input2.value=1;
-			}else if(value>window.pageCount2){
-				window.input2.value=window.pageCount2;
-			}
-			window.setPage(window.input2.value);
-		};
-		window.input2.onkeypress = function(e){
-		    if (!e) e = window.event;
-		    var keyCode = e.keyCode || e.which;
-		    if (keyCode == '13'){
-		      window.checkInput2();
-		      return false;
-		    }
-	    };
-	    
-		window.input2.addEventListener('blur', function() { 
-			window.checkInput2();
-		});
-		window.selectSize2=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::selectSize;
-		window.selectSize2.onchange=function(){
-			window.updateSize2();
-		};
-		window.updateSize2=function(){
-		var value = parseFloat(window.selectSize2.value);
-			if(window.selectSize2.value=='0'){
-				value=1;
-				var autoWidth = window.page2.getViewport(1).width;
-				var boxWidth = window.root2.offsetWidth-10;
-				console.log(autoWidth+' '+boxWidth);
-				value=boxWidth/autoWidth;
-			}
-			var viewport = window.page2.getViewport(value);
-	    	window.canvas2.height = viewport.height;
-	    	window.canvas2.width = viewport.width;
-			var renderContext = {
-	      		canvasContext: window.canvas2.getContext('2d'),
-	      		viewport: viewport
-	    	};
-	    	window.page2.render(renderContext);
-	    	window.canvas2Div.style.height=window.root2.offsetHeight-window.bar2.offsetHeight+'px';
-		};
-		
+		window.pdfviewer=new $wnd.PdfViewer(instance);
+		console.log('create pdfviewer');
+		pdfviewer.canvas = instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::canvas;
+		pdfviewer.canvasDiv=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::canvasDiv;
+		pdfviewer.root=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::root;
+		pdfviewer.counter=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::counter;
+		pdfviewer.input=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::inputCounter;
+		pdfviewer.selectSize=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::selectSize;
+		pdfviewer.bar=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::buttonBar;
+		pdfviewer.nextBtn =instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::nextBtn;
+		pdfviewer.prevBtn =instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::previousBtn;
+		pdfviewer.increaseBtn=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::increaseBtn;
+		pdfviewer.decreaseBtn=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::decreaseBtn;
+		pdfviewer.selectSize=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::selectSize;
+		pdfviewer.init();
+		console.log('end bind data');
 	}-*/;
 	public native void loadResourcePdf(String fileName)/*-{
-		if(window.fileName2==null || window.fileName2!=fileName){
-			window.pageNumbe2r=1;
+		console.log('read pdfviewer = ');
+		console.log(window.pdfviewer);
+		if(window.pdfviewer.fileName==null || window.pdfviewer.fileName!=fileName){
 			$wnd.PDFJS.disableStream = true;
-			$wnd.PDFJS.workerSrc ='/PdfViewer/APP/PUBLISHED/pdf.worker.js';
+			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
 			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
-			  	window.pdfFile2 = pdf;
-			  	window.fileName2=fileName;
-			  	window.pageCount2=window.pdfFile2.numPages;
-			  	window.showPdfPage(window.pageNumbe2r);
+				console.log('end load doc');
+			  	window.pdfviewer.pdfFile = pdf;
+			  	window.pdfviewer.fileName=fileName;
+			  	window.pdfviewer.pageCount=pdf.numPages;
+			  	console.log('display page');
+			  	if(window.pdfviewer.pageNumber==0 && pdf.numPages>0){
+			  		window.pdfviewer.pageNumber=1;
+			  	}
+			  	window.pdfviewer.showPdfPage(window.pdfviewer.pageNumber);
 			});
 		}
 	}-*/;
@@ -243,8 +165,10 @@ public class VPdfViewer extends HTML {
 		updatePage(page);
 	}
 	public native void updatePage(int page)/*-{
-		window.pageNumbe2r=page;
-		window.showPdfPage(page);
+		window.pdfviewer.pageNumber=page;
+		if(window.pdfviewer.pdfFile!=null){
+			window.pdfviewer.showPdfPage(page);
+		}
 	}-*/;
 	public void setPreviousButtonCaption(String caption) {
 		updateInnerHtml(caption,previousBtn);

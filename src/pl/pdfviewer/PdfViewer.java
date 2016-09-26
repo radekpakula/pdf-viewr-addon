@@ -1,4 +1,4 @@
-package pl.tiffviewer;
+package pl.pdfviewer;
 
 import java.io.File;
 
@@ -9,7 +9,7 @@ import com.vaadin.ui.AbstractComponent;
 import pl.pdfviewer.widgetset.client.share.PdfViewerState;
 import pl.pdfviewer.widgetset.client.ui.PdfViewerServerRpc;
 
-@JavaScript({"pdf.worker.js","pdf.js","dragscroll.js"})
+@JavaScript({"pdfviewer.js","pdf.worker.js","pdf.js","dragscroll.js"})
 public class PdfViewer extends AbstractComponent{
 
 	private static final long serialVersionUID = 1L;

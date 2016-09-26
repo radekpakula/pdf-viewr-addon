@@ -8,8 +8,8 @@ import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
 import com.vaadin.shared.ui.Connect;
 
+import pl.pdfviewer.PdfViewer;
 import pl.pdfviewer.widgetset.client.share.PdfViewerState;
-import pl.tiffviewer.PdfViewer;
 
 @Connect(PdfViewer.class)
 public class PdfViewerConnector extends AbstractComponentConnector {
