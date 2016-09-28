@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Vaadin-Stylesheets: VAADIN/addons/pdfviewer/pdfviewer.scss
 Implementation-Title: PdfViewer
-Implementation-Version: 1.0.0
+Implementation-Version: 1.0.3
 Vaadin-Widgetsets: pl.pdfviewer.widgetset.PdfViewerWidgetset
 Vaadin-Package-Version: 1
 Class-Path: 

@@ -45,6 +45,10 @@ public class PdfViewerConnector extends AbstractComponentConnector {
 	void updateResourceFile() {
 	    getWidget().setResourceFile(getResourceUrl("resourceFile"));
 	}
+	@OnStateChange("resources")
+	void updateResource() {
+		getWidget().setResourceFile(getResourceUrl("resourceFile"));
+	}
 	@OnStateChange("page")
 	void showPage() {
 		getWidget().setPage(getState().page);

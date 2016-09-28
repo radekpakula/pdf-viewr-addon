@@ -16,7 +16,9 @@ public class PdfViewer extends AbstractComponent{
 	private PdfViewerServerRpc rpc = new PdfViewerServerRpc() {
 		private static final long serialVersionUID = 1L;
 	};
-	
+	public PdfViewer(){
+		registerRpc(rpc);
+	}
 	public PdfViewer(File file) {
 		registerRpc(rpc);
 		loadFile(file);

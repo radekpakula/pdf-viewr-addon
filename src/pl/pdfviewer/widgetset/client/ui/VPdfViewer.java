@@ -135,13 +135,17 @@ public class VPdfViewer extends HTML {
 		var decreaseBtn=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::decreaseBtn;
 		
 		window.showPdfPage=function(pageNumber){
+			console.log('show page: '+pageNumber);
 			if(window.pdfFile2==null){
 				window.counter2.innerHTML=0;
 				window.input2.value=0;
+				console.log('null file');
 				return;
 			}
 			if(pageNumber<=window.pageCount2 && pageNumber>0){
+				console.log('draw canvas');
 			    window.pdfFile2.getPage(pageNumber).then(function(page) {
+				console.log('draw canvas function');
 			    	window.page2=page;
 			    	var viewport = page.getViewport(1);
 			    	window.canvas2.height = viewport.height;
@@ -151,6 +155,7 @@ public class VPdfViewer extends HTML {
 			    	window.counter2.innerHTML=window.pdfFile2.numPages;
 			    	window.input2.value=pageNumber;
 			    	$wnd.dragscroll.reset();
+			    	console.log('end draw canvas');
 				});
 			}
 		}
@@ -182,7 +187,7 @@ public class VPdfViewer extends HTML {
 			}else if(value>window.pageCount2){
 				window.input2.value=window.pageCount2;
 			}
-			window.setPage(window.input2.value);
+			window.showPdfPage(parseInt(window.input2.value));
 		};
 		window.input2.onkeypress = function(e){
 		    if (!e) e = window.event;
@@ -221,14 +226,20 @@ public class VPdfViewer extends HTML {
 		
 	}-*/;
 	public native void loadResourcePdf(String fileName)/*-{
-		if(window.fileName2==null || window.fileName2!=fileName){
+	console.log('init load file '+fileName+'  '+window.fileName2);
+		if(fileName!=null && fileName!=window.fileName2){
+			console.log('init file');
+			window.fileName2=fileName;
 			window.pageNumbe2r=1;
 			$wnd.PDFJS.disableStream = true;
 			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
 			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
+				console.log('load succesfull');
 			  	window.pdfFile2 = pdf;
 			  	window.fileName2=fileName;
 			  	window.pageCount2=window.pdfFile2.numPages;
+			  	window.input2.value=1;
+			  	window.selectSize2.value=0;
 			  	window.showPdfPage(window.pageNumbe2r);
 			});
 		}
@@ -237,6 +248,9 @@ public class VPdfViewer extends HTML {
 		this.fileResource=fileResource;
 		loadResourcePdf(fileResource);
 	}
+	public native void resetFileName()/*-{
+		window.fileName2=null;
+	}-*/;
 	public void setPage(int page) {
 		updatePage(page);
 	}
@@ -266,5 +280,10 @@ public class VPdfViewer extends HTML {
 	}
 	public void setDecreaseButtonCaption(String caption) {
 		updateInnerHtml(caption,decreaseBtn);
+	}
+	@Override
+	protected void onDetach() {
+		super.onDetach();
+		resetFileName();
 	}
 }
