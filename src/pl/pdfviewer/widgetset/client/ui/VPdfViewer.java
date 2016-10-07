@@ -127,7 +127,6 @@ public class VPdfViewer extends HTML {
 
 	public native void initTiff(VPdfViewer instance)/*-{
 		var pdfviewer=new $wnd.PdfViewer();
-		console.log('create pdfviewer');
 		pdfviewer.canvas = instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::canvas;
 		pdfviewer.canvasDiv=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::canvasDiv;
 		pdfviewer.root=instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::root;
@@ -145,18 +144,15 @@ public class VPdfViewer extends HTML {
 	}-*/;
 
 	public native void loadResourcePdf(String fileName, VPdfViewer instance)/*-{
-		console.log('load resources from source ');
 		var pdfviewer = instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::jsObject;
 		pdfviewer.work=false;
 		if((pdfviewer.fileName==null || pdfviewer.fileName!=fileName) && fileName!=null){
 			$wnd.PDFJS.disableStream = true;
 			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
 			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
-				console.log('end load doc');
 			  	pdfviewer.pdfFile = pdf;
 			  	pdfviewer.fileName=fileName;
 			  	pdfviewer.pageCount=pdf.numPages;
-			  	console.log('display page');
 			  	if(pdfviewer.pageNumber==0 && pdf.numPages>0){
 			  		pdfviewer.pageNumber=1;
 			  	}
