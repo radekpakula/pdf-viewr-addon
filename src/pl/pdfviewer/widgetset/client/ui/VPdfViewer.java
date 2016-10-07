@@ -145,8 +145,10 @@ public class VPdfViewer extends HTML {
 	}-*/;
 
 	public native void loadResourcePdf(String fileName, VPdfViewer instance)/*-{
+		console.log('load resources from source ');
 		var pdfviewer = instance.@pl.pdfviewer.widgetset.client.ui.VPdfViewer::jsObject;
-		if(pdfviewer.fileName==null || pdfviewer.fileName!=fileName){
+		pdfviewer.work=false;
+		if((pdfviewer.fileName==null || pdfviewer.fileName!=fileName) && fileName!=null){
 			$wnd.PDFJS.disableStream = true;
 			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
 			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
@@ -197,10 +199,10 @@ public class VPdfViewer extends HTML {
 	}
 
 	public native void updateInnerHtml(String caption, Element elem)/*-{
-																	if(caption!=null && caption!=''){
-																	elem.innerHTML=caption;
-																	}
-																	}-*/;
+		if(caption!=null && caption!=''){
+		elem.innerHTML=caption;
+		}
+	}-*/;
 
 	public void setIncreaseButtonCaption(String caption) {
 		updateInnerHtml(caption, increaseBtn);
