@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.StreamResource;
 import com.vaadin.ui.AbstractComponent;
 
 import pl.pdfviewer.widgetset.client.share.PdfViewerState;
@@ -27,8 +28,15 @@ public class PdfViewer extends AbstractComponent{
 		registerRpc(rpc);
 		setResource("resourceFile", file);
 	}
+	public PdfViewer(StreamResource file) {
+		registerRpc(rpc);
+		setResource("resourceFile", file);
+	}
 	public void setFile(File file){
 		loadFile(file);
+	}
+	public void setFile(StreamResource sourceFile){
+		setResource("resourceFile", sourceFile);
 	}
 	private void loadFile(File file) {
 		FileResource resource = new FileResource(file);
