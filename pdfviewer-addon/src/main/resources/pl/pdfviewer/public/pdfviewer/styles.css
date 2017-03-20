@@ -1,0 +1,41 @@
+.pdf-viewer .input-counter {
+  width: 60px;
+}
+.pdf-viewer .pdf-viewer-counter-box {
+  padding-left: 10px;
+  line-height: 37px;
+  font-weight: bolder;
+}
+.pdf-viewer .pdf-viewer-button-bar {
+  text-align: center;
+}
+.pdf-viewer .pdf-viewer-button-bar div {
+  display: inline-block;
+}
+.pdf-viewer .pdf-viewer-canvas {
+  cursor: move;
+}
+.pdf-viewer .pdf-viewer-navigation .v-button-previous {
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+.pdf-viewer .pdf-viewer-navigation .v-button-next {
+  border-radius: 0px 5px 5px 0px;
+}
+.pdf-viewer .pdf-viewer-size-box {
+  padding-left: 10px;
+}
+.pdf-viewer .pdf-viewer-size-box .v-button-decrease {
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+.pdf-viewer .pdf-viewer-size-box .v-button-increase {
+  border-radius: 0px;
+  border-right: none;
+}
+.pdf-viewer .pdf-viewer-size-box select:focus,
+.pdf-viewer .pdf-viewer-size-box select {
+  border-radius: 0px 5px 5px 0px;
+  height: 37px;
+  box-shadow: none;
+}
