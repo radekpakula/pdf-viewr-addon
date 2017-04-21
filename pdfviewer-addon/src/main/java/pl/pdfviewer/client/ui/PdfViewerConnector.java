@@ -73,5 +73,14 @@ public class PdfViewerConnector extends AbstractComponentConnector {
 	void setDecreaseButtonCaption() {
 		getWidget().setDecreaseButtonCaption(getState().decreaseCaption);
 	}
+	
+	@OnStateChange("nextAngle")
+	void setNextAngleButtonCaption() {
+		getWidget().setNextAngleButtonCaption(getState().nextAngle);
+	}
+	@OnStateChange("backAngle")
+	void setBackAngleButtonCaption() {
+		getWidget().setBackAngleButtonCaption(getState().backAngle);
+	}
 }
 

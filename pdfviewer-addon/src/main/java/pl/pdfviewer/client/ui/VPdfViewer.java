@@ -21,6 +21,7 @@ public class VPdfViewer extends HTML {
 	private DivElement nextBtn;
 	private DivElement counterBox;
 	private DivElement sizeBox;
+	private DivElement angleBox;
 	private DivElement additionalBox;
 	private Element inputCounter;
 	private Element pageText;
@@ -28,6 +29,8 @@ public class VPdfViewer extends HTML {
 	private SelectElement selectSize;
 	private DivElement increaseBtn;
 	private DivElement decreaseBtn;
+	private DivElement nextAngleBtn;
+	private DivElement backAngleBtn;
 	private CanvasElement canvas;
 
 	private String fileName;
@@ -81,6 +84,9 @@ public class VPdfViewer extends HTML {
 		sizeBox = Document.get().createDivElement();
 		sizeBox.setClassName(CLASSNAME + "-size-box");
 
+		angleBox = Document.get().createDivElement();
+		angleBox.setClassName(CLASSNAME + "-angle-box");
+
 		additionalBox = Document.get().createDivElement();
 		additionalBox.setClassName(CLASSNAME + "-additional-box");
 
@@ -99,10 +105,21 @@ public class VPdfViewer extends HTML {
 		increaseBtn = Document.get().createDivElement();
 		increaseBtn.setInnerHTML("+");
 		increaseBtn.addClassName("v-button v-widget v-button-increase");
-
+		
 		decreaseBtn = Document.get().createDivElement();
 		decreaseBtn.setInnerHTML("-");
 		decreaseBtn.addClassName("v-button v-widget v-button-decrease");
+
+		nextAngleBtn = Document.get().createDivElement();
+		nextAngleBtn.setInnerHTML("+45'");
+		nextAngleBtn.addClassName("v-button v-widget v-button-angle-add");
+		
+		backAngleBtn = Document.get().createDivElement();
+		backAngleBtn.setInnerHTML("-45'");
+		backAngleBtn.addClassName("v-button v-widget v-button-angle-add");
+		
+		angleBox.appendChild(backAngleBtn);
+		angleBox.appendChild(nextAngleBtn);
 
 		sizeBox.appendChild(decreaseBtn);
 		sizeBox.appendChild(increaseBtn);
@@ -118,6 +135,7 @@ public class VPdfViewer extends HTML {
 		buttonBar.appendChild(groupSpan);
 		buttonBar.appendChild(counterBox);
 		buttonBar.appendChild(sizeBox);
+		buttonBar.appendChild(angleBox);
 		buttonBar.appendChild(additionalBox);
 		inputCounter.setInnerText("1");
 		root.appendChild(buttonBar);
@@ -140,6 +158,8 @@ public class VPdfViewer extends HTML {
 		pdfviewer.increaseBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::increaseBtn;
 		pdfviewer.decreaseBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::decreaseBtn;
 		pdfviewer.selectSize=instance.@pl.pdfviewer.client.ui.VPdfViewer::selectSize;
+		pdfviewer.addAngleBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::nextAngleBtn;
+		pdfviewer.subAngleBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::backAngleBtn;
 		instance.@pl.pdfviewer.client.ui.VPdfViewer::setJsObject(Lcom/google/gwt/core/client/JavaScriptObject;)(pdfviewer);
 		pdfviewer.init();
 	}-*/;
@@ -207,6 +227,12 @@ public class VPdfViewer extends HTML {
 
 	public void setDecreaseButtonCaption(String caption) {
 		updateInnerHtml(caption, decreaseBtn);
+	}
+	public void setNextAngleButtonCaption(String caption) {
+		updateInnerHtml(caption, nextAngleBtn);
+	}
+	public void setBackAngleButtonCaption(String caption) {
+		updateInnerHtml(caption, backAngleBtn);
 	}
 
 	@Override

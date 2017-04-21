@@ -13,5 +13,7 @@ public class PdfViewerState extends com.vaadin.shared.AbstractComponentState {
 	public String toPageCaption;
 	public String incraseCaption;
 	public String decreaseCaption;
+	public String nextAngle;
+	public String backAngle;
 
 }

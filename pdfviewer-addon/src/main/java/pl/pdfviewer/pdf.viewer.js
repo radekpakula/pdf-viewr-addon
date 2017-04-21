@@ -19,6 +19,8 @@ function PdfViewer(){
 	this.currentPage=0;
 	this.fileName=null;
 	this.work=false;
+	this.addAngleBtn=null;
+	this.subAngleBtn=null;
 }
 PdfViewer.prototype.showPdfPage=function(pageNumber){
 	var self = this;
@@ -112,5 +114,12 @@ PdfViewer.prototype.init=function(){
 	});
 	this.selectSize.onchange=function(){
 		self.updateSize();
+	};
+	
+	this.addAngleBtn.onclick=function(){
+		
+	};
+	this.subAngleBtn.onclick=function(){
+		
 	};
 };

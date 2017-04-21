@@ -69,4 +69,10 @@ public class PdfViewer extends AbstractComponent{
 	public void setDecreaseButtonCaption(String htmlCaption) {
 		getState().decreaseCaption=htmlCaption;
 	}
+	public void setNextAngleButtonCaption(String htmlCaption) {
+		getState().nextAngle=htmlCaption;
+	}
+	public void setBackAngleButtonCaption(String htmlCaption) {
+		getState().backAngle=htmlCaption;
+	}
 }
