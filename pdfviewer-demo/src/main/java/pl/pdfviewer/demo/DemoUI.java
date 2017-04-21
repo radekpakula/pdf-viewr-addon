@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
@@ -34,7 +35,12 @@ public class DemoUI extends UI
         final VerticalLayout layout = new VerticalLayout();
         layout.setStyleName("demoContentLayout");
         layout.setSizeFull();
-        layout.addComponent(new PdfViewer(new File("/home/radek/Pobrane/dane_wyjściowe.pdf")));
+        PdfViewer c = new PdfViewer(new File("/home/radek/Pulpit/pdf.pdf"));
+        c.setBackAngleButtonCaption(FontAwesome.ROTATE_LEFT.getHtml());
+        c.setNextAngleButtonCaption(FontAwesome.ROTATE_RIGHT.getHtml());
+        System.out.println(FontAwesome.ROTATE_LEFT.getHtml());
+        System.out.println(FontAwesome.ROTATE_RIGHT.getHtml());
+		layout.addComponent(c);
         setContent(layout);
     }
 }

@@ -21,6 +21,7 @@ function PdfViewer(){
 	this.work=false;
 	this.addAngleBtn=null;
 	this.subAngleBtn=null;
+	this.angle=0;
 }
 PdfViewer.prototype.showPdfPage=function(pageNumber){
 	var self = this;
@@ -53,7 +54,7 @@ PdfViewer.prototype.checkInput=function(){
 	}else if(value>this.pageCount){
 		this.input.value=this.pageCount;
 	}
-	this.setPage(this.input.value);
+	self.showPdfPage(this.input.value);
 };
 PdfViewer.prototype.updateSize=function(){
 	if(this.work){
@@ -69,13 +70,14 @@ PdfViewer.prototype.updateSize=function(){
 	this.canvasDiv.removeChild(this.canvas);
 	this.canvas = document.createElement('canvas');
 	this.canvasDiv.appendChild(this.canvas);
-	var viewport = this.page.getViewport(value);
+	var viewport = this.page.getViewport(value,this.angle);
 	this.canvas.height = viewport.height;
 	this.canvas.width = viewport.width;
 	
-	
+	var context=this.canvas.getContext('2d');
+	context.rotate(this.angle*(Math.P/180));
 	var renderContext = {
-  		canvasContext: this.canvas.getContext('2d'),
+  		canvasContext: context,
   		viewport: viewport,
 	};
 	this.page.render(renderContext);
@@ -117,9 +119,17 @@ PdfViewer.prototype.init=function(){
 	};
 	
 	this.addAngleBtn.onclick=function(){
-		
+		self.angle=self.angle+90;
+		if(self.angle==360 || self.angle==-360){
+			self.angle=0;
+		}
+		self.updateSize();
 	};
 	this.subAngleBtn.onclick=function(){
-		
+		self.angle=self.angle-90;
+		if(self.angle==360 || self.angle==-360){
+			self.angle=0;
+		}
+		self.updateSize();
 	};
 };

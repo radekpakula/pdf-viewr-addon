@@ -22,7 +22,6 @@ public class VPdfViewer extends HTML {
 	private DivElement counterBox;
 	private DivElement sizeBox;
 	private DivElement angleBox;
-	private DivElement additionalBox;
 	private Element inputCounter;
 	private Element pageText;
 	private Element toText;
@@ -83,15 +82,12 @@ public class VPdfViewer extends HTML {
 		counter.setClassName("counter");
 		sizeBox = Document.get().createDivElement();
 		sizeBox.setClassName(CLASSNAME + "-size-box");
-
+ 
 		angleBox = Document.get().createDivElement();
 		angleBox.setClassName(CLASSNAME + "-angle-box");
 
-		additionalBox = Document.get().createDivElement();
-		additionalBox.setClassName(CLASSNAME + "-additional-box");
-
 		selectSize = Document.get().createSelectElement();
-		selectSize.setClassName(CLASSNAME + "-select-size");
+		selectSize.setClassName(CLASSNAME + "-select-size v-button");
 		String[][] vals = new String[][] { { "0", " Auto " }, { "0.25", " 25%" }, { "0.5", " 50%" }, { "0.75", " 75%" },
 				{ "1", " 100%" }, { "1.25", " 125%" }, { "1.5", " 150%" }, { "1.75", " 175%" }, { "2", " 200%" },
 				{ "2.25", " 225%" }, { "2.5", " 250%" }, { "3", " 300%" }, { "4", " 400%" }, { "5", " 500%" },
@@ -111,11 +107,11 @@ public class VPdfViewer extends HTML {
 		decreaseBtn.addClassName("v-button v-widget v-button-decrease");
 
 		nextAngleBtn = Document.get().createDivElement();
-		nextAngleBtn.setInnerHTML("+45'");
+		nextAngleBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf0e2;</span>");
 		nextAngleBtn.addClassName("v-button v-widget v-button-angle-add");
 		
 		backAngleBtn = Document.get().createDivElement();
-		backAngleBtn.setInnerHTML("-45'");
+		backAngleBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf01e;</span>");
 		backAngleBtn.addClassName("v-button v-widget v-button-angle-add");
 		
 		angleBox.appendChild(backAngleBtn);
@@ -136,7 +132,6 @@ public class VPdfViewer extends HTML {
 		buttonBar.appendChild(counterBox);
 		buttonBar.appendChild(sizeBox);
 		buttonBar.appendChild(angleBox);
-		buttonBar.appendChild(additionalBox);
 		inputCounter.setInnerText("1");
 		root.appendChild(buttonBar);
 		root.appendChild(canvasDiv);
