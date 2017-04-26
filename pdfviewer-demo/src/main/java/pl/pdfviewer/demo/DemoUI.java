@@ -34,8 +34,8 @@ public class DemoUI extends UI
         layout.setStyleName("demoContentLayout");
         
         PdfViewer c = new PdfViewer(new File("/home/radek/Pulpit/pdf.pdf"));
-        c.setHeight(100	,Unit.PERCENTAGE);
-        c.setWidth(100,Unit.PERCENTAGE);
+        c.setHeight(400	,Unit.PIXELS);
+        c.setWidth(800,Unit.PIXELS);
         c.setBackAngleButtonCaption(FontAwesome.ROTATE_LEFT.getHtml());
         c.setNextAngleButtonCaption(FontAwesome.ROTATE_RIGHT.getHtml());
         c.setIncreaseButtonCaption(FontAwesome.SEARCH_PLUS.getHtml());

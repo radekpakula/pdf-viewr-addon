@@ -40,3 +40,6 @@
 .pdf-viewer .pdf-viewer-counter-box input{
 	width: 60px;
 }
+.pdf-viewer .pdf-viewer-canvas.dragscroll{
+	pointer: move;
+}
