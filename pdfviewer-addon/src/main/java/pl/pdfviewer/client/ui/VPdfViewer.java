@@ -54,7 +54,7 @@ public class VPdfViewer extends HTML {
 		buttonBar = Document.get().createDivElement();
 		buttonBar.setClassName(CLASSNAME + "-button-bar");
 
-		Element groupSpan = Document.get().createSpanElement();
+		Element groupSpan = Document.get().createDivElement();
 		groupSpan.setClassName(CLASSNAME + "-navigation");
 
 		previousBtn = Document.get().createDivElement();
@@ -87,7 +87,7 @@ public class VPdfViewer extends HTML {
 		angleBox.setClassName(CLASSNAME + "-angle-box");
 
 		selectSize = Document.get().createSelectElement();
-		selectSize.setClassName(CLASSNAME + "-select-size v-button");
+		selectSize.setClassName(CLASSNAME + "-select-size v-widget v-select-select");
 		String[][] vals = new String[][] { { "0", " Auto " }, { "0.25", " 25%" }, { "0.5", " 50%" }, { "0.75", " 75%" },
 				{ "1", " 100%" }, { "1.25", " 125%" }, { "1.5", " 150%" }, { "1.75", " 175%" }, { "2", " 200%" },
 				{ "2.25", " 225%" }, { "2.5", " 250%" }, { "3", " 300%" }, { "4", " 400%" }, { "5", " 500%" },
@@ -99,11 +99,11 @@ public class VPdfViewer extends HTML {
 			selectSize.appendChild(el);
 		}
 		increaseBtn = Document.get().createDivElement();
-		increaseBtn.setInnerHTML("+");
+		increaseBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf00e;</span>");
 		increaseBtn.addClassName("v-button v-widget v-button-increase");
 		
 		decreaseBtn = Document.get().createDivElement();
-		decreaseBtn.setInnerHTML("-");
+		decreaseBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf010;</span>");
 		decreaseBtn.addClassName("v-button v-widget v-button-decrease");
 
 		nextAngleBtn = Document.get().createDivElement();
@@ -112,7 +112,7 @@ public class VPdfViewer extends HTML {
 		
 		backAngleBtn = Document.get().createDivElement();
 		backAngleBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf01e;</span>");
-		backAngleBtn.addClassName("v-button v-widget v-button-angle-add");
+		backAngleBtn.addClassName("v-button v-widget v-button-angle-dec");
 		
 		angleBox.appendChild(backAngleBtn);
 		angleBox.appendChild(nextAngleBtn);

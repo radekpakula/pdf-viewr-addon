@@ -35,7 +35,6 @@ PdfViewer.prototype.showPdfPage=function(pageNumber){
 		this.currentPage=pageNumber;
 		this.counter.innerHTML=this.pdfFile.numPages;
 		this.input.value=pageNumber;
-		
 	    this.pdfFile.getPage(pageNumber).then(function(page){
 	    	self.page=page;
 	    	self.updateSize();
@@ -45,8 +44,7 @@ PdfViewer.prototype.showPdfPage=function(pageNumber){
 		};
 };
 
-PdfViewer.prototype.checkInput=function(){
-    var value = parseInt(this.input.value);
+PdfViewer.prototype.checkInput=function(value){
 	if(isNaN(value)){
 		this.input.value=1;
 	}else if(value<1){
@@ -54,7 +52,7 @@ PdfViewer.prototype.checkInput=function(){
 	}else if(value>this.pageCount){
 		this.input.value=this.pageCount;
 	}
-	self.showPdfPage(this.input.value);
+	this.showPdfPage(this.input.value);
 };
 PdfViewer.prototype.updateSize=function(){
 	if(this.work){
@@ -107,12 +105,14 @@ PdfViewer.prototype.init=function(){
 	    if (!e) e = window.event;
 	    var keyCode = e.keyCode || e.which;
 	    if (keyCode == '13'){
-	    	self.checkInput();
+	    	var value = parseInt(e.target.value);
+	    	self.showPdfPage(value);
 	      return false;
 	    }
 	};
-	this.input.addEventListener('blur', function() { 
-		self.checkInput();
+	this.input.addEventListener('blur', function(e) { 
+    	var value = parseInt(e.target.value);
+    	self.showPdfPage(value);
 	});
 	this.selectSize.onchange=function(){
 		self.updateSize();

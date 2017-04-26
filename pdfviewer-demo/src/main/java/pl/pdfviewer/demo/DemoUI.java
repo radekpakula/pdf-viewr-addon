@@ -4,7 +4,6 @@ import java.io.File;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.FontAwesome;
@@ -15,7 +14,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import pl.pdfviewer.PdfViewer;
 
-@Theme("demo")
 @Title("PdfViewer Add-on Demo")
 @SuppressWarnings("serial")
 public class DemoUI extends UI
@@ -34,12 +32,16 @@ public class DemoUI extends UI
         // Show it in the middle of the screen
         final VerticalLayout layout = new VerticalLayout();
         layout.setStyleName("demoContentLayout");
-        layout.setSizeFull();
+        
         PdfViewer c = new PdfViewer(new File("/home/radek/Pulpit/pdf.pdf"));
+        c.setHeight(100	,Unit.PERCENTAGE);
+        c.setWidth(100,Unit.PERCENTAGE);
         c.setBackAngleButtonCaption(FontAwesome.ROTATE_LEFT.getHtml());
         c.setNextAngleButtonCaption(FontAwesome.ROTATE_RIGHT.getHtml());
-        System.out.println(FontAwesome.ROTATE_LEFT.getHtml());
-        System.out.println(FontAwesome.ROTATE_RIGHT.getHtml());
+        c.setIncreaseButtonCaption(FontAwesome.SEARCH_PLUS.getHtml());
+        c.setDecreaseButtonCaption(FontAwesome.SEARCH_MINUS.getHtml());
+        c.setPreviousPageCaption(FontAwesome.ANGLE_LEFT.getHtml()+" Back");
+        c.setNextPageCaption("Next "+FontAwesome.ANGLE_RIGHT.getHtml());
 		layout.addComponent(c);
         setContent(layout);
     }
