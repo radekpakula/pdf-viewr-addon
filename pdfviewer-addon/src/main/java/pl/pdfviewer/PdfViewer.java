@@ -10,7 +10,7 @@ import com.vaadin.ui.AbstractComponent;
 import pl.pdfviewer.client.share.PdfViewerState;
 import pl.pdfviewer.client.ui.PdfViewerServerRpc;
 
-@JavaScript({"pdf.worker.js","pdf.js","dragscroll.js","pdf.viewer.js"})
+@JavaScript({"pdf.worker.js","pdf.js","dragscroll.js","pdf.viewer.js","print.js"})
 public class PdfViewer extends AbstractComponent{
 
 	private static final long serialVersionUID = 1L;
@@ -23,14 +23,22 @@ public class PdfViewer extends AbstractComponent{
 	public PdfViewer(File file) {
 		registerRpc(rpc);
 		loadFile(file);
+		configure();
+	}
+	private void configure() {
+		setAngleButtonVisible(true);
+		setDownloadBtnVisible(true);
+		
 	}
 	public PdfViewer(FileResource file) {
 		registerRpc(rpc);
 		setResource("resourceFile", file);
+		configure();
 	}
 	public PdfViewer(StreamResource file) {
 		registerRpc(rpc);
 		setResource("resourceFile", file);
+		configure();
 	}
 	public void setFile(File file){
 		loadFile(file);
@@ -74,5 +82,17 @@ public class PdfViewer extends AbstractComponent{
 	}
 	public void setBackAngleButtonCaption(String htmlCaption) {
 		getState().backAngle=htmlCaption;
+	}
+	public void setPrintButtonCaption(String htmlCaption) {
+		getState().printCaption=htmlCaption;
+	}
+	public void setDownloadButtonCaption(String htmlCaption) {
+		getState().downloadCaption=htmlCaption;
+	}
+	public void setAngleButtonVisible(boolean visible) {
+		getState().angleVisible=visible+"";
+	}
+	public void setDownloadBtnVisible(boolean visible) {
+		getState().additionalVisible=visible+"";
 	}
 }

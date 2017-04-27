@@ -9,6 +9,9 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -44,5 +47,17 @@ public class DemoUI extends UI
         c.setNextPageCaption("Next "+FontAwesome.ANGLE_RIGHT.getHtml());
 		layout.addComponent(c);
         setContent(layout);
+        int d=1;
+        Button b = new Button("dupa");
+        b.addClickListener(new ClickListener() {
+        	int b=0;
+			@Override
+			public void buttonClick(ClickEvent event) {
+				b++;
+	        	c.setAngleButtonVisible(b%2==0);
+	        	c.setNextPageCaption("DUPA");
+			}
+		});
+        layout.addComponent(b);
     }
 }

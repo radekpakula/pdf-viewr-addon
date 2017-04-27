@@ -22,6 +22,7 @@ public class VPdfViewer extends HTML {
 	private DivElement counterBox;
 	private DivElement sizeBox;
 	private DivElement angleBox;
+	private DivElement additionalBox;
 	private Element inputCounter;
 	private Element pageText;
 	private Element toText;
@@ -30,13 +31,16 @@ public class VPdfViewer extends HTML {
 	private DivElement decreaseBtn;
 	private DivElement nextAngleBtn;
 	private DivElement backAngleBtn;
+	private DivElement downloadBtn;
+	private DivElement printBtn;
 	private CanvasElement canvas;
-
 	private String fileName;
 	private String pageCount;
 	private String inputValue;
 	private String selectSizeValue;
 	private JavaScriptObject jsObject;
+	private boolean angleVisible;
+	private boolean downloadVisible;
 	public VPdfViewer() {
 		root = Document.get().createDivElement();
 		root.setClassName(CLASSNAME);
@@ -53,45 +57,38 @@ public class VPdfViewer extends HTML {
 		canvasDiv.appendChild(canvas);
 		buttonBar = Document.get().createDivElement();
 		buttonBar.setClassName(CLASSNAME + "-button-bar");
-
 		Element groupSpan = Document.get().createDivElement();
 		groupSpan.setClassName(CLASSNAME + "-navigation");
-
 		previousBtn = Document.get().createDivElement();
 		previousBtn.setInnerHTML("Previous");
 		previousBtn.addClassName("v-button v-widget v-button-previous");
-
 		nextBtn = Document.get().createDivElement();
 		nextBtn.setInnerHTML("Next");
 		nextBtn.addClassName("v-button v-widget v-button-next");
-
 		counterBox = Document.get().createDivElement();
 		counterBox.setClassName(CLASSNAME + "-counter-box");
-
 		pageText = Document.get().createSpanElement();
 		pageText.setClassName("page");
 		pageText.setInnerText("Page: ");
-
 		toText = Document.get().createSpanElement();
 		toText.setClassName("to-page");
 		toText.setInnerText(" from ");
-
 		inputCounter = Document.get().createTextInputElement();
 		inputCounter.setClassName("v-textfield v-widget input-counter");
+		additionalBox = Document.get().createDivElement();
+		additionalBox.setClassName(CLASSNAME + "-additional-box");
+		;
 		counter = Document.get().createSpanElement();
 		counter.setClassName("counter");
 		sizeBox = Document.get().createDivElement();
 		sizeBox.setClassName(CLASSNAME + "-size-box");
- 
 		angleBox = Document.get().createDivElement();
 		angleBox.setClassName(CLASSNAME + "-angle-box");
-
 		selectSize = Document.get().createSelectElement();
 		selectSize.setClassName(CLASSNAME + "-select-size v-widget v-select-select");
-		String[][] vals = new String[][] { { "0", " Auto " }, { "0.25", " 25%" }, { "0.5", " 50%" }, { "0.75", " 75%" },
-				{ "1", " 100%" }, { "1.25", " 125%" }, { "1.5", " 150%" }, { "1.75", " 175%" }, { "2", " 200%" },
-				{ "2.25", " 225%" }, { "2.5", " 250%" }, { "3", " 300%" }, { "4", " 400%" }, { "5", " 500%" },
-				{ "10", " 1000%" } };
+		String[][] vals = new String[][] { { "0", " Auto " }, { "0.25", " 25%" }, { "0.5", " 50%" }, { "0.75", " 75%" }, { "1", " 100%" }, { "1.25", " 125%" },
+				{ "1.5", " 150%" }, { "1.75", " 175%" }, { "2", " 200%" }, { "2.25", " 225%" }, { "2.5", " 250%" }, { "3", " 300%" }, { "4", " 400%" },
+				{ "5", " 500%" }, { "10", " 1000%" } };
 		for (String[] e : vals) {
 			OptionElement el = Document.get().createOptionElement();
 			el.setValue(e[0]);
@@ -101,37 +98,43 @@ public class VPdfViewer extends HTML {
 		increaseBtn = Document.get().createDivElement();
 		increaseBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf00e;</span>");
 		increaseBtn.addClassName("v-button v-widget v-button-increase");
-		
 		decreaseBtn = Document.get().createDivElement();
 		decreaseBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf010;</span>");
 		decreaseBtn.addClassName("v-button v-widget v-button-decrease");
-
 		nextAngleBtn = Document.get().createDivElement();
 		nextAngleBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf0e2;</span>");
 		nextAngleBtn.addClassName("v-button v-widget v-button-angle-add");
-		
 		backAngleBtn = Document.get().createDivElement();
 		backAngleBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf01e;</span>");
 		backAngleBtn.addClassName("v-button v-widget v-button-angle-dec");
-		
-		angleBox.appendChild(backAngleBtn);
-		angleBox.appendChild(nextAngleBtn);
-
+		downloadBtn = Document.get().createDivElement();
+		downloadBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf019;</span>");
+		downloadBtn.addClassName("v-button v-widget v-button-download");
+		printBtn = Document.get().createDivElement();
+		printBtn.setInnerHTML("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">&#xf02f;</span>");
+		printBtn.addClassName("v-button v-widget v-button-print");
 		sizeBox.appendChild(decreaseBtn);
 		sizeBox.appendChild(increaseBtn);
 		sizeBox.appendChild(selectSize);
-
 		counterBox.appendChild(pageText);
 		counterBox.appendChild(inputCounter);
 		counterBox.appendChild(toText);
 		counterBox.appendChild(counter);
-
 		groupSpan.appendChild(previousBtn);
 		groupSpan.appendChild(nextBtn);
 		buttonBar.appendChild(groupSpan);
 		buttonBar.appendChild(counterBox);
 		buttonBar.appendChild(sizeBox);
+		if(angleVisible){
+			angleBox.appendChild(backAngleBtn);
+			angleBox.appendChild(nextAngleBtn);
+		}
 		buttonBar.appendChild(angleBox);
+		if(downloadVisible){
+			additionalBox.appendChild(downloadBtn);
+			additionalBox.appendChild(printBtn);
+		}
+		buttonBar.appendChild(additionalBox);
 		inputCounter.setInnerText("1");
 		root.appendChild(buttonBar);
 		root.appendChild(canvasDiv);
@@ -140,43 +143,45 @@ public class VPdfViewer extends HTML {
 	}
 
 	public native void initTiff(VPdfViewer instance)/*-{
-		var pdfviewer=new $wnd.PdfViewer();
-		pdfviewer.canvas = instance.@pl.pdfviewer.client.ui.VPdfViewer::canvas;
-		pdfviewer.canvasDiv=instance.@pl.pdfviewer.client.ui.VPdfViewer::canvasDiv;
-		pdfviewer.root=instance.@pl.pdfviewer.client.ui.VPdfViewer::root;
-		pdfviewer.counter=instance.@pl.pdfviewer.client.ui.VPdfViewer::counter;
-		pdfviewer.input=instance.@pl.pdfviewer.client.ui.VPdfViewer::inputCounter;
-		pdfviewer.selectSize=instance.@pl.pdfviewer.client.ui.VPdfViewer::selectSize;
-		pdfviewer.bar=instance.@pl.pdfviewer.client.ui.VPdfViewer::buttonBar;
-		pdfviewer.nextBtn =instance.@pl.pdfviewer.client.ui.VPdfViewer::nextBtn;
-		pdfviewer.prevBtn =instance.@pl.pdfviewer.client.ui.VPdfViewer::previousBtn;
-		pdfviewer.increaseBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::increaseBtn;
-		pdfviewer.decreaseBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::decreaseBtn;
-		pdfviewer.selectSize=instance.@pl.pdfviewer.client.ui.VPdfViewer::selectSize;
-		pdfviewer.addAngleBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::nextAngleBtn;
-		pdfviewer.subAngleBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::backAngleBtn;
-		instance.@pl.pdfviewer.client.ui.VPdfViewer::setJsObject(Lcom/google/gwt/core/client/JavaScriptObject;)(pdfviewer);
-		pdfviewer.init();
-	}-*/;
+													var pdfviewer=new $wnd.PdfViewer();
+													pdfviewer.canvas = instance.@pl.pdfviewer.client.ui.VPdfViewer::canvas;
+													pdfviewer.canvasDiv=instance.@pl.pdfviewer.client.ui.VPdfViewer::canvasDiv;
+													pdfviewer.root=instance.@pl.pdfviewer.client.ui.VPdfViewer::root;
+													pdfviewer.counter=instance.@pl.pdfviewer.client.ui.VPdfViewer::counter;
+													pdfviewer.input=instance.@pl.pdfviewer.client.ui.VPdfViewer::inputCounter;
+													pdfviewer.selectSize=instance.@pl.pdfviewer.client.ui.VPdfViewer::selectSize;
+													pdfviewer.bar=instance.@pl.pdfviewer.client.ui.VPdfViewer::buttonBar;
+													pdfviewer.nextBtn =instance.@pl.pdfviewer.client.ui.VPdfViewer::nextBtn;
+													pdfviewer.prevBtn =instance.@pl.pdfviewer.client.ui.VPdfViewer::previousBtn;
+													pdfviewer.increaseBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::increaseBtn;
+													pdfviewer.decreaseBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::decreaseBtn;
+													pdfviewer.selectSize=instance.@pl.pdfviewer.client.ui.VPdfViewer::selectSize;
+													pdfviewer.addAngleBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::nextAngleBtn;
+													pdfviewer.subAngleBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::backAngleBtn;
+													pdfviewer.downloadBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::downloadBtn;
+													pdfviewer.printBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::printBtn;
+													instance.@pl.pdfviewer.client.ui.VPdfViewer::setJsObject(Lcom/google/gwt/core/client/JavaScriptObject;)(pdfviewer);
+													pdfviewer.init();
+													}-*/;
 
 	public native void loadResourcePdf(String fileName, VPdfViewer instance)/*-{
-		var pdfviewer = instance.@pl.pdfviewer.client.ui.VPdfViewer::jsObject;
-		pdfviewer.work=false;
-		if((pdfviewer.fileName==null || pdfviewer.fileName!=fileName) && fileName!=null){
-			$wnd.PDFJS.disableStream = true;
-			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
-			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
-			  	pdfviewer.pdfFile = pdf;
-			  	pdfviewer.fileName=fileName;
-			  	pdfviewer.pageCount=pdf.numPages;
-			  	if(pdfviewer.pageNumber==0 && pdf.numPages>0){
-			  		pdfviewer.pageNumber=1;
-			  	}
-			  	pdfviewer.showPdfPage(pdfviewer.pageNumber);
-			});
-		}
-	
-	}-*/;
+																			var pdfviewer = instance.@pl.pdfviewer.client.ui.VPdfViewer::jsObject;
+																			pdfviewer.work=false;
+																			if((pdfviewer.fileName==null || pdfviewer.fileName!=fileName) && fileName!=null){
+																			$wnd.PDFJS.disableStream = true;
+																			$wnd.PDFJS.workerSrc ='APP/PUBLISHED/pdf.worker.js';
+																			$wnd.PDFJS.getDocument(fileName).then(function(pdf) {
+																			pdfviewer.pdfFile = pdf;
+																			pdfviewer.fileName=fileName;
+																			pdfviewer.pageCount=pdf.numPages;
+																			if(pdfviewer.pageNumber==0 && pdf.numPages>0){
+																			pdfviewer.pageNumber=1;
+																			}
+																			pdfviewer.showPdfPage(pdfviewer.pageNumber);
+																			});
+																			}
+																			
+																			}-*/;
 
 	public void setResourceFile(String fileName) {
 		this.fileName = fileName;
@@ -211,10 +216,10 @@ public class VPdfViewer extends HTML {
 	}
 
 	public native void updateInnerHtml(String caption, Element elem)/*-{
-		if(caption!=null && caption!=''){
-		elem.innerHTML=caption;
-		}
-	}-*/;
+																	if(caption!=null && caption!=''){
+																	elem.innerHTML=caption;
+																	}
+																	}-*/;
 
 	public void setIncreaseButtonCaption(String caption) {
 		updateInnerHtml(caption, increaseBtn);
@@ -223,11 +228,46 @@ public class VPdfViewer extends HTML {
 	public void setDecreaseButtonCaption(String caption) {
 		updateInnerHtml(caption, decreaseBtn);
 	}
+
 	public void setNextAngleButtonCaption(String caption) {
 		updateInnerHtml(caption, nextAngleBtn);
 	}
+
 	public void setBackAngleButtonCaption(String caption) {
 		updateInnerHtml(caption, backAngleBtn);
+	}
+
+	public void setPrintButtonCaption(String caption) {
+		updateInnerHtml(caption, printBtn);
+	}
+
+	public void setDownloadButtonCaption(String caption) {
+		updateInnerHtml(caption, downloadBtn);
+	}
+
+	public void setAngleVisibility(String visible) {
+		this.angleVisible=visible.equals("true");
+		if(angleVisible){
+			angleBox.removeAllChildren();
+			angleBox.appendChild(backAngleBtn);
+			angleBox.appendChild(nextAngleBtn);
+			
+		}else{
+			angleBox.removeAllChildren();
+		}
+	}
+	public native void log(String log)/*-{
+	console.log(log);
+	}-*/;
+	public void setAdditionalVisible(String visible) {
+		this.downloadVisible=visible.equals("true");
+		if(downloadVisible){
+			additionalBox.removeAllChildren();
+			additionalBox.appendChild(downloadBtn);
+			additionalBox.appendChild(printBtn);
+		}else{
+			additionalBox.removeAllChildren();
+		}
 	}
 
 	@Override
