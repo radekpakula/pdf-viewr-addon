@@ -5,8 +5,8 @@
 	<groupId>pl.pdfviewer</groupId>
 	<artifactId>pdfviewer-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.3.3</version>
-	<name>MyComponent Add-on Demo</name>
+	<version>1.3.5</version>
+	<name>PdfViewer</name>
 
 	<prerequisites>
 		<maven>3</maven>
@@ -16,8 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<vaadin.version>8.0.0</vaadin.version>
-		<vaadin.plugin.version>8.0.0</vaadin.plugin.version>
+		<vaadin.version>8.0.6</vaadin.version>
+		<vaadin.plugin.version>8.0.6</vaadin.plugin.version>
 		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
 	</properties>
 
@@ -98,7 +98,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.0.0</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>

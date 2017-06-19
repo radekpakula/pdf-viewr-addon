@@ -1,1 +1,6 @@
 pdfviewer-addon/.classpath
+.settings/*
+pdfviewer-addon/.settings/*
+pdfviewer-demo/.settings/
+pdfviewer-addon/target/*
+pdfviewer-demo/target/*

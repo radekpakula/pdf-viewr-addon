@@ -1,6 +1,6 @@
-# MyComponent Add-on for Vaadin 7
+# MyComponent Add-on for Vaadin 8
 
-${ComponentClassName} is a UI component add-on for Vaadin 7.
+${ComponentClassName} is a UI component add-on for Vaadin 8.
 
 ## Online demo
 
@@ -51,7 +51,7 @@ Debugging client side code in the pdfviewer-demo project:
  
 ## Release notes
 
-### Version 1.5-SNAPSHOT
+### Version 1.3.5
 - ...
 - ...
 

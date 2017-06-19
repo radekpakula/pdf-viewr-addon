@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -39,15 +39,14 @@ public class DemoUI extends UI
         PdfViewer c = new PdfViewer(new File("/home/radek/Pulpit/pdf.pdf"));
         c.setHeight(400	,Unit.PIXELS);
         c.setWidth(800,Unit.PIXELS);
-        c.setBackAngleButtonCaption(FontAwesome.ROTATE_LEFT.getHtml());
-        c.setNextAngleButtonCaption(FontAwesome.ROTATE_RIGHT.getHtml());
-        c.setIncreaseButtonCaption(FontAwesome.SEARCH_PLUS.getHtml());
-        c.setDecreaseButtonCaption(FontAwesome.SEARCH_MINUS.getHtml());
-        c.setPreviousPageCaption(FontAwesome.ANGLE_LEFT.getHtml()+" Back");
-        c.setNextPageCaption("Next "+FontAwesome.ANGLE_RIGHT.getHtml());
+        c.setBackAngleButtonCaption(VaadinIcons.ROTATE_LEFT.getHtml());
+        c.setNextAngleButtonCaption(VaadinIcons.ROTATE_RIGHT.getHtml());
+        c.setIncreaseButtonCaption(VaadinIcons.SEARCH_PLUS.getHtml());
+        c.setDecreaseButtonCaption(VaadinIcons.SEARCH_MINUS.getHtml());
+        c.setPreviousPageCaption(VaadinIcons.ANGLE_LEFT.getHtml()+" Back");
+        c.setNextPageCaption("Next "+VaadinIcons.ANGLE_RIGHT.getHtml());
 		layout.addComponent(c);
         setContent(layout);
-        int d=1;
         Button b = new Button("dupa");
         b.addClickListener(new ClickListener() {
         	int b=0;
