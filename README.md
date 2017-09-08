@@ -1,6 +1,6 @@
-# PdfViewer Add-on for Vaadin 8
+# PdfViewer Add-on for Vaadin
 
-PdfViewer is a UI component add-on for Vaadin 7.
+PdfViewer is a UI component add-on for Vaadin 7,8.
 
 Official releases of this add-on are available at Vaadin Directory. For Maven instructions, download and reviews, go to http://vaadin.com/addon/pdfviewer
 
