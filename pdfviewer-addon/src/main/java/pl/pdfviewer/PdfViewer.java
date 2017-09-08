@@ -1,6 +1,8 @@
 package pl.pdfviewer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.server.FileResource;
@@ -9,13 +11,46 @@ import com.vaadin.ui.AbstractComponent;
 
 import pl.pdfviewer.client.share.PdfViewerState;
 import pl.pdfviewer.client.ui.PdfViewerServerRpc;
+import pl.pdfviewer.listener.AngleChangeListener;
+import pl.pdfviewer.listener.DownloadTiffListener;
+import pl.pdfviewer.listener.PageChangeListener;
 
 @JavaScript({"pdf.worker.js","pdf.js","dragscroll.js","pdf.viewer.js","print.js"})
 public class PdfViewer extends AbstractComponent{
 
 	private static final long serialVersionUID = 1L;
+	
+	private List<PageChangeListener> pageChangeListener = new ArrayList<>();
+	private List<AngleChangeListener> angleChangeListener = new ArrayList<>();
+	private List<DownloadTiffListener> downloadListener = new ArrayList<>();
+	
 	private PdfViewerServerRpc rpc = new PdfViewerServerRpc() {
 		private static final long serialVersionUID = 1L;
+		@Override
+		public void angleChange(Integer angle) {
+			if(getState().angle!=angle){
+				getState().angle=angle;
+				angleChangeListener.forEach(e->{
+					e.angleChange(angle);
+				});
+				
+			}
+		}
+		@Override
+		public void pageChange(Integer page) {
+			if(getState().page!= page){
+				getState().page=page;
+				pageChangeListener.forEach(e->{
+					e.pageChange(page);
+				});
+			}
+		}
+		@Override
+		public void download() {
+			downloadListener.forEach(e->{
+				e.download();
+			});
+		}
 	};
 	public PdfViewer(){
 		registerRpc(rpc);
@@ -90,9 +125,30 @@ public class PdfViewer extends AbstractComponent{
 		getState().downloadCaption=htmlCaption;
 	}
 	public void setAngleButtonVisible(boolean visible) {
-		getState().angleVisible=visible+"";
+		getState().angleVisible=visible;
 	}
 	public void setDownloadBtnVisible(boolean visible) {
-		getState().additionalVisible=visible+"";
+		getState().additionalVisible=visible;
+	}
+	public void addPageChangeListener(PageChangeListener listener){
+		pageChangeListener.add(listener);
+	}
+	public void removePageChangeListener(PageChangeListener listener){
+		pageChangeListener.remove(listener);
+	}
+	public void addAngleChangeListener(AngleChangeListener listener){
+		angleChangeListener.add(listener);
+	}
+	public void removeAngleChangeListener(AngleChangeListener listener){
+		angleChangeListener.remove(listener);
+	}
+	public void addDownloadTiffListener(DownloadTiffListener listener){
+		downloadListener.add(listener);
+	}
+	public void removeDownloadTiffListener(DownloadTiffListener listener){
+		downloadListener.remove(listener);
+	}
+	public int getPage() {
+		return getState().page;
 	}
 }

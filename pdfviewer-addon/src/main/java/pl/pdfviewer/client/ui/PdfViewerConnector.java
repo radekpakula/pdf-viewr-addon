@@ -20,6 +20,24 @@ public class PdfViewerConnector extends AbstractComponentConnector {
 	public PdfViewerConnector() {
 		registerRpc(PdfViewerClientRpc.class, new PdfViewerClientRpc(){
 			private static final long serialVersionUID = 1L;});
+        getWidget().setAngleChangeListener(new IntegerListener() {
+			@Override
+			public void valueChange(Integer value) {
+				rpc.angleChange(value);
+			}
+		});
+        getWidget().setPageChangeListener(new IntegerListener() {
+			@Override
+			public void valueChange(Integer page) {
+				rpc.pageChange(page);
+			}
+		});
+        getWidget().setDownloadListener(new VoidListener() {
+			@Override
+			public void listener() {
+				rpc.download();
+			}
+		});
 	}
 
 	@Override

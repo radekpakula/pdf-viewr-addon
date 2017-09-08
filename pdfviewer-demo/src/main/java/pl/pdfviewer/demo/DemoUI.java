@@ -16,6 +16,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import pl.pdfviewer.PdfViewer;
+import pl.pdfviewer.listener.AngleChangeListener;
+import pl.pdfviewer.listener.PageChangeListener;
 
 @Title("PdfViewer Add-on Demo")
 @SuppressWarnings("serial")
@@ -45,6 +47,18 @@ public class DemoUI extends UI
         c.setDecreaseButtonCaption(VaadinIcons.SEARCH_MINUS.getHtml());
         c.setPreviousPageCaption(VaadinIcons.ANGLE_LEFT.getHtml()+" Back");
         c.setNextPageCaption("Next "+VaadinIcons.ANGLE_RIGHT.getHtml());
+        c.addPageChangeListener(new PageChangeListener() {
+			@Override
+			public void pageChange(Integer page) {
+				System.out.println(page+" PAGE CHANGE");
+			}
+		});
+        c.addAngleChangeListener(new AngleChangeListener() {
+			@Override
+			public void angleChange(Integer page) {
+				System.out.println("Angle change");
+			}
+		});
 		layout.addComponent(c);
         setContent(layout);
         Button b = new Button("dupa");

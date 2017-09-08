@@ -12,6 +12,10 @@ import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.ui.HTML;
 
 public class VPdfViewer extends HTML {
+	private IntegerListener angleChangeListener;
+	private IntegerListener pageChangeListener;
+	private VoidListener downloadListener;
+	
 	private static final String CLASSNAME = "pdf-viewer";
 	private Element root;
 	private DivElement canvasDiv;
@@ -162,6 +166,50 @@ public class VPdfViewer extends HTML {
 													pdfviewer.printBtn=instance.@pl.pdfviewer.client.ui.VPdfViewer::printBtn;
 													instance.@pl.pdfviewer.client.ui.VPdfViewer::setJsObject(Lcom/google/gwt/core/client/JavaScriptObject;)(pdfviewer);
 													pdfviewer.init();
+													
+													pdfviewer.nextBtn.onclick = function() {
+														pdfviewer.showPdfPage(pdfviewer.currentPage + 1)
+														instance.@pl.pdfviewer.client.ui.VPdfViewer::setPageValue(Ljava/lang/Integer;)(pdfviewer.currentPage);
+													};
+													pdfviewer.prevBtn.onclick = function() {
+														pdfviewer.showPdfPage(pdfviewer.currentPage - 1)
+														instance.@pl.pdfviewer.client.ui.VPdfViewer::setPageValue(Ljava/lang/Integer;)(pdfviewer.currentPage);
+													};
+		pdfviewer.input.onkeypress = function(e) {
+			if (!e)
+				e = window.event;
+			var keyCode = e.keyCode || e.which;
+			if (keyCode == '13') {
+				var value = parseInt(e.target.value);
+				pdfviewer.showPdfPage(value);
+				return false;
+			}
+		};
+		pdfviewer.input.addEventListener('blur', function(e) {
+			var value = parseInt(e.target.value);
+			pdfviewer.showPdfPage(value);
+		});
+		pdfviewer.addAngleBtn.onclick = function() {
+			pdfviewer.angle = pdfviewer.angle + 90;
+			if (pdfviewer.angle == 360 || pdfviewer.angle == -360) {
+				pdfviewer.angle = 0;
+			}
+			pdfviewer.updateSize();
+			instance.@pl.pdfviewer.client.ui.VPdfViewer::setAngleValue(Ljava/lang/Integer;)(pdfviewer.angle);
+		};
+		pdfviewer.subAngleBtn.onclick = function() {
+			pdfviewer.angle = pdfviewer.angle - 90;
+			if (pdfviewer.angle == 360 || pdfviewer.angle == -360) {
+				pdfviewer.angle = 0;
+			}
+			pdfviewer.updateSize();
+			instance.@pl.pdfviewer.client.ui.VPdfViewer::setAngleValue(Ljava/lang/Integer;)(pdfviewer.angle);
+		};
+		pdfviewer.downloadBtn.onclick=function(){
+			pdfviewer.downloadIt();
+			instance.@pl.pdfviewer.client.ui.VPdfViewer::downloadIt()();
+		}
+		
 													}-*/;
 
 	public native void loadResourcePdf(String fileName, VPdfViewer instance)/*-{
@@ -193,11 +241,15 @@ public class VPdfViewer extends HTML {
 	}
 
 	public void setPage(int page) {
-		updatePage(page);
+		updatePage(page,this);
 	}
 
-	public native void updatePage(int page)/*-{
-											}-*/;
+	public native void updatePage(int page,VPdfViewer instance)/*-{
+	var pdfviewer = instance.@pl.pdfviewer.client.ui.VPdfViewer::getJsObject()();
+		if(page!=pdfviewer.currentPage){
+			pdfviewer.showPdfPage(page);
+		}
+	}-*/;
 
 	public void setPreviousButtonCaption(String caption) {
 		updateInnerHtml(caption, previousBtn);
@@ -245,8 +297,8 @@ public class VPdfViewer extends HTML {
 		updateInnerHtml(caption, downloadBtn);
 	}
 
-	public void setAngleVisibility(String visible) {
-		this.angleVisible=visible.equals("true");
+	public void setAngleVisibility(boolean visible) {
+		this.angleVisible=visible;
 		if(angleVisible){
 			angleBox.removeAllChildren();
 			angleBox.appendChild(backAngleBtn);
@@ -259,8 +311,8 @@ public class VPdfViewer extends HTML {
 	public native void log(String log)/*-{
 	console.log(log);
 	}-*/;
-	public void setAdditionalVisible(String visible) {
-		this.downloadVisible=visible.equals("true");
+	public void setAdditionalVisible(boolean visible) {
+		this.downloadVisible=visible;
 		if(downloadVisible){
 			additionalBox.removeAllChildren();
 			additionalBox.appendChild(downloadBtn);
@@ -297,5 +349,23 @@ public class VPdfViewer extends HTML {
 
 	public void setJsObject(JavaScriptObject jsObject) {
 		this.jsObject = jsObject;
+	}
+	public void setPageValue(Integer page){
+		pageChangeListener.valueChange(page);
+	}
+	public void setAngleValue(Integer page){
+		angleChangeListener.valueChange(page);
+	}
+	public void downloadIt(){
+		downloadListener.listener();
+	}
+	public void setAngleChangeListener(IntegerListener angleChangeListener) {
+		this.angleChangeListener = angleChangeListener;
+	}
+	public void setPageChangeListener(IntegerListener pageChangeListener) {
+		this.pageChangeListener = pageChangeListener;
+	}
+	public void setDownloadListener(VoidListener downloadListener) {
+		this.downloadListener = downloadListener;
 	}
 }

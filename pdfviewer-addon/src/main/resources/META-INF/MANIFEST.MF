@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
-Vaadin-Stylesheets: VAADIN/addons/pdfviewer/pdfviewer.scss
 Implementation-Title: pdfviewer
 Implementation-Version: 1.6.0
 Vaadin-Package-Version: 1

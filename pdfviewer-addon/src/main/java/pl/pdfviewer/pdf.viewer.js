@@ -26,6 +26,7 @@ function PdfViewer() {
 }
 PdfViewer.prototype.showPdfPage = function(pageNumber) {
 	var self = this;
+	this.angle=0;
 	if (this.pdfFile == null) {
 		this.counter.innerHTML = 0;
 		this.input.value = 0;
@@ -90,12 +91,6 @@ PdfViewer.prototype.updateSize = function() {
 };
 PdfViewer.prototype.init = function() {
 	var self = this;
-	this.nextBtn.onclick = function() {
-		self.showPdfPage(self.currentPage + 1)
-	};
-	this.prevBtn.onclick = function() {
-		self.showPdfPage(self.currentPage - 1)
-	};
 	this.increaseBtn.onclick = function() {
 		var list = self.selectSize;
 		list.value = list.value == 0 ? 1 : list.value;
@@ -112,41 +107,9 @@ PdfViewer.prototype.init = function() {
 			self.updateSize();
 		}
 	};
-	this.input.onkeypress = function(e) {
-		if (!e)
-			e = window.event;
-		var keyCode = e.keyCode || e.which;
-		if (keyCode == '13') {
-			var value = parseInt(e.target.value);
-			self.showPdfPage(value);
-			return false;
-		}
-	};
-	this.input.addEventListener('blur', function(e) {
-		var value = parseInt(e.target.value);
-		self.showPdfPage(value);
-	});
 	this.selectSize.onchange = function() {
 		self.updateSize();
 	};
-
-	this.addAngleBtn.onclick = function() {
-		self.angle = self.angle + 90;
-		if (self.angle == 360 || self.angle == -360) {
-			self.angle = 0;
-		}
-		self.updateSize();
-	};
-	this.subAngleBtn.onclick = function() {
-		self.angle = self.angle - 90;
-		if (self.angle == 360 || self.angle == -360) {
-			self.angle = 0;
-		}
-		self.updateSize();
-	};
-	this.downloadBtn.onclick=function(){
-		self.downloadIt();
-	}
 	this.printBtn.onclick=function(){
 		self.printIt();
 	}
